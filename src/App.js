@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Heart, Sparkles, Stars } from 'lucide-react';
 
+// Word list moved outside component to avoid dependency issues
+const VALENTINE_WORDS = [
+  { word: 'CUPID', hint: "🏹 The Roman god of love with wings and arrows" },
+  { word: 'ROSES', hint: "🌹 Classic romantic flowers, often red" },
+  { word: 'HEARTS', hint: "💕 The universal symbol of love" },
+  { word: 'SWEET', hint: "🍬 Like chocolates and loving words" },
+  { word: 'CRUSH', hint: "😊 When you can't stop thinking about someone" },
+  { word: 'ROMANCE', hint: "💑 Love, passion, and affection combined" }
+];
+
 export default function ValentineGame() {
   const [gameStage, setGameStage] = useState('intro'); // intro, minigame, wordgame, question, celebration
   const [score, setScore] = useState(0);
@@ -13,14 +23,6 @@ export default function ValentineGame() {
   const noButtonRef = useRef(null);
   
   // Word guessing game states
-  const valentineWords = [
-    { word: 'CUPID', hint: "🏹 The Roman god of love with wings and arrows" },
-    { word: 'ROSES', hint: "🌹 Classic romantic flowers, often red" },
-    { word: 'HEARTS', hint: "💕 The universal symbol of love" },
-    { word: 'SWEET', hint: "🍬 Like chocolates and loving words" },
-    { word: 'CRUSH', hint: "😊 When you can't stop thinking about someone" },
-    { word: 'ROMANCE', hint: "💑 Love, passion, and affection combined" }
-  ];
   const [targetWordObj, setTargetWordObj] = useState(null);
   const [targetWord, setTargetWord] = useState('');
   const [guesses, setGuesses] = useState([]);
@@ -61,7 +63,7 @@ export default function ValentineGame() {
       return () => clearTimeout(timer);
     } else if (gameStage === 'minigame' && timeLeft === 0) {
       setTimeout(() => {
-        const wordObj = valentineWords[Math.floor(Math.random() * valentineWords.length)];
+        const wordObj = VALENTINE_WORDS[Math.floor(Math.random() * VALENTINE_WORDS.length)];
         setTargetWordObj(wordObj);
         setTargetWord(wordObj.word);
         setGameStage('wordgame');
